@@ -9,7 +9,6 @@ export const calculateItemTotal = (item: CartItem) => {
   const { product, quantity } = item;
   const total = product.price * quantity;
   const applicableDiscount = getMaxApplicableDiscount(item);
-  console.log(applicableDiscount);
   // 할인율이 100% 이상이면 할인을 적용하지 않음
   if (!applicableDiscount || applicableDiscount >= 1) {
     return total;

@@ -20,12 +20,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 8
       - name: test basic
-        run: pnpm test:basic
+        run: |
+          npm install
+          npm run test:basic
   advacned:
     runs-on: ubuntu-latest
     steps:
@@ -36,9 +34,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 8
       - name: advanced-test
-        run: pnpm test:advanced
+        run: |
+          npm install
+          npm run test:advanced

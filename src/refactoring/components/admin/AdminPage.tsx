@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Coupon, Discount, Product } from '../../../types.ts';
 import NewProduct from './NewProduct.tsx';
-
+import AddDiscountForm from './AddDiscountForm.tsx';
 interface Props {
   products: Product[];
   coupons: Coupon[];
@@ -19,10 +19,10 @@ export const AdminPage = ({
 }: Props) => {
   const [openProductIds, setOpenProductIds] = useState<Set<string>>(new Set());
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
-  const [newDiscount, setNewDiscount] = useState<Discount>({
-    quantity: 0,
-    rate: 0,
-  });
+  // const [newDiscount, setNewDiscount] = useState<Discount>({
+  //   quantity: 0,
+  //   rate: 0,
+  // });
   const [newCoupon, setNewCoupon] = useState<Coupon>({
     name: '',
     code: '',
@@ -80,16 +80,15 @@ export const AdminPage = ({
     }
   };
 
-  const handleAddDiscount = (productId: string) => {
+  const handleAddDiscount = (productId: string, discount: Discount) => {
     const updatedProduct = products.find((p) => p.id === productId);
     if (updatedProduct && editingProduct) {
       const newProduct = {
         ...updatedProduct,
-        discounts: [...updatedProduct.discounts, newDiscount],
+        discounts: [...updatedProduct.discounts, discount],
       };
       onProductUpdate(newProduct);
       setEditingProduct(newProduct);
-      setNewDiscount({ quantity: 0, rate: 0 });
     }
   };
 
@@ -206,38 +205,11 @@ export const AdminPage = ({
                               </button>
                             </div>
                           ))}
-                          <div className="flex space-x-2">
-                            <input
-                              type="number"
-                              placeholder="수량"
-                              value={newDiscount.quantity}
-                              onChange={(e) =>
-                                setNewDiscount({
-                                  ...newDiscount,
-                                  quantity: parseInt(e.target.value),
-                                })
-                              }
-                              className="w-1/3 p-2 border rounded"
-                            />
-                            <input
-                              type="number"
-                              placeholder="할인율 (%)"
-                              value={newDiscount.rate * 100}
-                              onChange={(e) =>
-                                setNewDiscount({
-                                  ...newDiscount,
-                                  rate: parseInt(e.target.value) / 100,
-                                })
-                              }
-                              className="w-1/3 p-2 border rounded"
-                            />
-                            <button
-                              onClick={() => handleAddDiscount(product.id)}
-                              className="w-1/3 bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
-                            >
-                              할인 추가
-                            </button>
-                          </div>
+                          {/* 할인 추가 폼 */}
+                          <AddDiscountForm
+                            productId={product.id}
+                            onAddDiscount={handleAddDiscount}
+                          />
                         </div>
                         <button
                           onClick={handleEditComplete}

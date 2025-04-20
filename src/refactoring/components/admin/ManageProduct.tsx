@@ -2,7 +2,7 @@ import { useState } from 'react';
 import NewProduct from './NewProduct';
 import { Discount, Product } from '../../../types';
 import AddDiscountForm from './AddDiscountForm';
-import { Card, H2 } from '../shared';
+import { Card, H2, H4 } from '../shared';
 interface ManageProductProps {
   products: Product[];
   onProductAdd: (product: Product) => void;
@@ -143,34 +143,11 @@ const ManageProduct = ({
                         className="w-full p-2 border rounded"
                       />
                     </div>
-                    {/* 할인 정보 수정 부분 */}
-                    <div>
-                      <h4 className="text-lg font-semibold mb-2">할인 정보</h4>
-                      {editingProduct.discounts.map((discount, index) => (
-                        <div
-                          key={index}
-                          className="flex justify-between items-center mb-2"
-                        >
-                          <span>
-                            {discount.quantity}개 이상 구매 시{' '}
-                            {discount.rate * 100}% 할인
-                          </span>
-                          <button
-                            onClick={() =>
-                              handleRemoveDiscount(product.id, index)
-                            }
-                            className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
-                          >
-                            삭제
-                          </button>
-                        </div>
-                      ))}
-                      {/* 할인 추가 폼 */}
-                      <AddDiscountForm
-                        productId={product.id}
-                        onAddDiscount={handleAddDiscount}
-                      />
-                    </div>
+                    <ProductDiscount
+                      editingProduct={editingProduct}
+                      handleRemoveDiscount={handleRemoveDiscount}
+                      handleAddDiscount={handleAddDiscount}
+                    />
                     <button
                       onClick={handleEditComplete}
                       className="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600 mt-2"
@@ -207,3 +184,44 @@ const ManageProduct = ({
 };
 
 export default ManageProduct;
+
+/**
+ * 상품 할인 정보 컴포넌트
+ * @param editingProduct 수정할 상품
+ * @param handleRemoveDiscount 할인 정보 삭제 함수
+ * @param handleAddDiscount 할인 정보 추가 함수
+ * @returns 상품 할인 정보 컴포넌트
+ */
+const ProductDiscount = ({
+  editingProduct,
+  handleRemoveDiscount,
+  handleAddDiscount,
+}: {
+  editingProduct: Product;
+  handleRemoveDiscount: (productId: string, index: number) => void;
+  handleAddDiscount: (productId: string, discount: Discount) => void;
+}) => {
+  return (
+    <div>
+      <H4>할인 정보</H4>
+      {editingProduct.discounts.map((discount, index) => (
+        <div key={index} className="flex justify-between items-center mb-2">
+          <span>
+            {discount.quantity}개 이상 구매 시 {discount.rate * 100}% 할인
+          </span>
+          <button
+            onClick={() => handleRemoveDiscount(editingProduct.id, index)}
+            className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
+          >
+            삭제
+          </button>
+        </div>
+      ))}
+      {/* 할인 추가 폼 */}
+      <AddDiscountForm
+        productId={editingProduct.id}
+        onAddDiscount={handleAddDiscount}
+      />
+    </div>
+  );
+};

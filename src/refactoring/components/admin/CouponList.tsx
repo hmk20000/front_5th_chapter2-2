@@ -1,5 +1,5 @@
 import { Coupon } from '../../../types';
-
+import { H3 } from '../shared';
 interface CouponListProps {
   coupons: Coupon[];
 }
@@ -7,7 +7,7 @@ interface CouponListProps {
 const CouponList = ({ coupons }: CouponListProps) => {
   return (
     <div>
-      <h3 className="text-lg font-semibold mb-2">현재 쿠폰 목록</h3>
+      <H3>현재 쿠폰 목록</H3>
       <div className="space-y-2">
         {coupons.map((coupon, index) => (
           <div

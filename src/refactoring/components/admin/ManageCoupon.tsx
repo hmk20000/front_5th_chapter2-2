@@ -1,7 +1,7 @@
-import { useState } from 'react';
 import { Coupon } from '../../../types';
 import AddCouponForm from './AddCouponForm';
 import CouponList from './CouponList';
+import { H2, Card } from '../shared';
 export const INITIAL_COUPON: Coupon = Object.freeze({
   name: '',
   code: '',
@@ -27,11 +27,11 @@ const ManageCoupon = ({ coupons, onAddCoupon }: ManageCouponProps) => {
 
   return (
     <div>
-      <h2 className="text-2xl font-semibold mb-4">쿠폰 관리</h2>
-      <div className="bg-white p-4 rounded shadow">
+      <H2>쿠폰 관리</H2>
+      <Card>
         <AddCouponForm onAddCoupon={handleAddCoupon} />
         <CouponList coupons={coupons} />
-      </div>
+      </Card>
     </div>
   );
 };

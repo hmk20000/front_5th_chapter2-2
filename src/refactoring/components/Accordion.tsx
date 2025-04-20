@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export interface AccordionProps {
+interface AccordionProps {
   title: React.ReactNode;
   children: React.ReactNode;
   titleProps?: React.HTMLAttributes<HTMLDivElement>;

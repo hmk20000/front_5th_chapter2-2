@@ -5,3 +5,7 @@ export const H2 = ({ children }: { children: React.ReactNode }) => {
 export const H3 = ({ children }: { children: React.ReactNode }) => {
   return <h3 className="text-lg font-semibold mb-2">{children}</h3>;
 };
+
+export const H4 = ({ children }: { children: React.ReactNode }) => {
+  return <h4 className="text-base font-semibold mb-2">{children}</h4>;
+};

@@ -492,6 +492,28 @@ describe('basic > ', () => {
       expect(result.current.cart[0].quantity).toBe(5);
     });
 
+    test('재고 한도를 초과해서는 안 됩니다.', () => {
+      const { result } = renderHook(() => useCart());
+
+      act(() => {
+        result.current.addToCart(testProduct);
+        result.current.updateQuantity(testProduct.id, 15);
+      });
+
+      expect(result.current.cart[0].quantity).toBe(10);
+    });
+
+    test('최소 수량은 1개 이상이어야 합니다.', () => {
+      const { result } = renderHook(() => useCart());
+
+      act(() => {
+        result.current.addToCart(testProduct);
+        result.current.updateQuantity(testProduct.id, 0);
+      });
+
+      expect(result.current.cart[0].quantity).toBe(1);
+    });
+
     test('쿠폰을 적용해야지', () => {
       const { result } = renderHook(() => useCart());
 

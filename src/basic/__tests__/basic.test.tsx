@@ -503,7 +503,7 @@ describe('basic > ', () => {
       expect(result.current.cart[0].quantity).toBe(10);
     });
 
-    test('최소 수량은 1개 이상이어야 합니다.', () => {
+    test('수량이 0으로 설정된 경우 항목을 제거해야 합니다.', () => {
       const { result } = renderHook(() => useCart());
 
       act(() => {
@@ -511,7 +511,7 @@ describe('basic > ', () => {
         result.current.updateQuantity(testProduct.id, 0);
       });
 
-      expect(result.current.cart[0].quantity).toBe(1);
+      expect(result.current.cart).toHaveLength(0);
     });
 
     test('쿠폰을 적용해야지', () => {

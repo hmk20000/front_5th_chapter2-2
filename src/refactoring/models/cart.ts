@@ -103,18 +103,3 @@ export const updateCartItemQuantity = (
   });
   return updatedCart;
 };
-
-/**
- * 장바구니 수량 유효성 검사
- * @param quantity 장바구니 수량
- * @param stock 재고 수량
- * @returns 유효한 수량
- */
-export const validateCartQuantity = (quantity: number, stock: number) => {
-  /**
-   * 1. 최소 수량은 1개 이상이어야 합니다.
-   * 2. 재고 한도를 초과해서는 안 됩니다.
-   */
-
-  return Math.max(1, Math.min(quantity, stock));
-};

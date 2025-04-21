@@ -161,23 +161,45 @@ const ProductDiscount = ({
     <div>
       <H4>할인 정보</H4>
       {editingProduct.discounts.map((discount, index) => (
-        <div key={index} className="flex justify-between items-center mb-2">
-          <span>
-            {discount.quantity}개 이상 구매 시 {discount.rate * 100}% 할인
-          </span>
-          <button
-            onClick={() => handleRemoveDiscount(editingProduct.id, index)}
-            className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
-          >
-            삭제
-          </button>
-        </div>
+        <ProductDiscountItem
+          key={index}
+          discount={discount}
+          index={index}
+          productId={editingProduct.id}
+          handleRemoveDiscount={handleRemoveDiscount}
+        />
       ))}
       {/* 할인 추가 폼 */}
       <AddDiscountForm
         productId={editingProduct.id}
         onAddDiscount={handleAddDiscount}
       />
+    </div>
+  );
+};
+
+const ProductDiscountItem = ({
+  discount,
+  index,
+  productId,
+  handleRemoveDiscount,
+}: {
+  discount: Discount;
+  index: number;
+  productId: string;
+  handleRemoveDiscount: (productId: string, index: number) => void;
+}) => {
+  return (
+    <div key={index} className="flex justify-between items-center mb-2">
+      <span>
+        {discount.quantity}개 이상 구매 시 {discount.rate * 100}% 할인
+      </span>
+      <button
+        onClick={() => handleRemoveDiscount(productId, index)}
+        className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
+      >
+        삭제
+      </button>
     </div>
   );
 };

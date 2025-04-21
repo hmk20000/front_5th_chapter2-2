@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import NewProduct from './NewProduct';
-import { Discount, Product } from '../../../types';
-import AddDiscountForm from './AddDiscountForm';
-import { Card, H2, H4 } from '../shared';
+import { Product } from '../../../types';
+import { Card, H2 } from '../shared';
 import ProductAccordion from './ProductAccordion';
 interface ManageProductProps {
   products: Product[];

@@ -1,6 +1,12 @@
 import { useState } from 'react';
 import { Coupon } from '../../../types';
-import { INITIAL_COUPON } from './ManageCoupon';
+
+const INITIAL_COUPON: Coupon = Object.freeze({
+  name: '',
+  code: '',
+  discountType: 'percentage',
+  discountValue: 0,
+});
 
 interface AddCouponFormProps {
   onAddCoupon: (coupon: Coupon) => void;

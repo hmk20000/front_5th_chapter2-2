@@ -3,7 +3,11 @@ import { H3 } from '../shared';
 interface CouponListProps {
   coupons: Coupon[];
 }
-
+/**
+ * 쿠폰 목록 컴포넌트
+ * @param coupons 쿠폰 목록
+ * @returns 쿠폰 목록 컴포넌트
+ */
 const CouponList = ({ coupons }: CouponListProps) => {
   return (
     <div>

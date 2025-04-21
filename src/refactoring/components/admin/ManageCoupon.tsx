@@ -2,12 +2,6 @@ import { Coupon } from '../../../types';
 import AddCouponForm from './AddCouponForm';
 import CouponList from './CouponList';
 import { H2, Card } from '../shared';
-export const INITIAL_COUPON: Coupon = Object.freeze({
-  name: '',
-  code: '',
-  discountType: 'percentage',
-  discountValue: 0,
-});
 
 interface ManageCouponProps {
   coupons: Coupon[];

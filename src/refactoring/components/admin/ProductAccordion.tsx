@@ -1,6 +1,5 @@
-import React from 'react';
-import Accordion from '../Accordion';
 import { Product } from '../../../types';
+import Accordion from '../shared/Accordion';
 
 interface ProductAccordionProps {
   product: Product;

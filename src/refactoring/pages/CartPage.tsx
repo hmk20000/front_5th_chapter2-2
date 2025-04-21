@@ -1,5 +1,6 @@
 import { CartItem, Coupon, Product } from '../../types.ts';
 import { useCart } from '../hooks/index.ts';
+import { H1, H2 } from '../components/shared';
 
 interface Props {
   products: Product[];
@@ -43,10 +44,10 @@ export const CartPage = ({ products, coupons }: Props) => {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6">장바구니</h1>
+      <H1>장바구니</H1>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <h2 className="text-2xl font-semibold mb-4">상품 목록</h2>
+          <H2>상품 목록</H2>
           <div className="space-y-2">
             {products.map((product) => {
               const remainingStock = getRemainingStock(product);
@@ -105,7 +106,7 @@ export const CartPage = ({ products, coupons }: Props) => {
           </div>
         </div>
         <div>
-          <h2 className="text-2xl font-semibold mb-4">장바구니 내역</h2>
+          <H2>장바구니 내역</H2>
 
           <div className="space-y-2">
             {cart.map((item) => {
@@ -157,7 +158,7 @@ export const CartPage = ({ products, coupons }: Props) => {
           </div>
 
           <div className="mt-6 bg-white p-4 rounded shadow">
-            <h2 className="text-2xl font-semibold mb-2">쿠폰 적용</h2>
+            <H2>쿠폰 적용</H2>
             <select
               onChange={(e) => applyCoupon(coupons[parseInt(e.target.value)])}
               className="w-full p-2 border rounded mb-2"
@@ -184,7 +185,7 @@ export const CartPage = ({ products, coupons }: Props) => {
           </div>
 
           <div className="mt-6 bg-white p-4 rounded shadow">
-            <h2 className="text-2xl font-semibold mb-2">주문 요약</h2>
+            <H2>주문 요약</H2>
             <div className="space-y-1">
               <p>상품 금액: {totalBeforeDiscount.toLocaleString()}원</p>
               <p className="text-green-600">

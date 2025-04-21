@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Product } from '../../../types';
-
+import { H3 } from '../shared';
 interface NewProductProps {
   onProductAdd: (product: Product) => void;
 }
@@ -40,7 +40,7 @@ const NewProduct = ({ onProductAdd }: NewProductProps) => {
       </button>
       {showNewProductForm && (
         <div className="bg-white p-4 rounded shadow mb-4">
-          <h3 className="text-xl font-semibold mb-2">새 상품 추가</h3>
+          <H3>새 상품 추가</H3>
           <div className="mb-2">
             <label
               htmlFor="productName"

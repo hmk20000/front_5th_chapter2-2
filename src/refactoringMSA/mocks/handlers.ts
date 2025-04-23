@@ -36,6 +36,19 @@ export const handlers = [
   http.get('/products', () => {
     return HttpResponse.json(initialProducts);
   }),
+  // 상품 수정
+  http.put('/products/:id', ({ params }) => {
+    const { id } = params;
+    const product = initialProducts.find((p) => p.id === id);
+    return HttpResponse.json(product);
+  }),
+  // 상품 추가
+  http.post('/products', async ({ request }) => {
+    const { data } = (await request.json()) as { data: Product };
+    initialProducts.push(data);
+    return HttpResponse.json({ data }, { status: 201 });
+  }),
+
   // // 포스트 목록
   // http.get('/posts', () => {
   //   return HttpResponse.json(posts);

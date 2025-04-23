@@ -1,45 +1,55 @@
 import { useEffect, useState } from 'react';
 import { Product } from '../../types.ts';
+import { getProducts, updateProduct, addProduct } from '../apis/productApi.ts';
 
 export const useProducts = () => {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await fetch('http://localhost:5173/products');
-        if (!response.ok) {
-          throw new Error('Failed to fetch products');
-        }
-        const data = await response.json();
-        setProducts(data);
-      } catch (err) {
-        setError(err instanceof Error ? err : new Error('Unknown error'));
-      } finally {
-        setLoading(false);
-      }
-    };
+  const handlerGetProducts = () => {
+    getProducts().then((res) => {
+      setData(res);
+    });
+  };
 
-    fetchProducts();
+  const handleUpdateProduct = (product: Product) => {
+    setLoading(true);
+    try {
+      updateProduct(product).then(() => {
+        setData(data.map((p) => (p.id === product.id ? product : p)));
+        setLoading(false);
+      });
+    } catch (err) {
+      setError(err as Error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleAddProduct = (product: Product) => {
+    setLoading(true);
+    try {
+      addProduct(product).then(() => {
+        setData([...data, product]);
+        setLoading(false);
+      });
+    } catch (err) {
+      setError(err as Error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    handlerGetProducts();
   }, []);
 
-  const updateProduct = (product: Product) => {
-    setProducts((prevProducts) =>
-      prevProducts.map((p) => (p.id === product.id ? product : p)),
-    );
-  };
-
-  const addProduct = (product: Product) => {
-    setProducts((prevProducts) => [...prevProducts, product]);
-  };
-
   return {
-    products,
+    products: data || [], // null일 경우 빈 배열 반환
     loading,
     error,
-    updateProduct,
-    addProduct,
+    updateProduct: handleUpdateProduct,
+    addProduct: handleAddProduct,
   };
 };

@@ -6,7 +6,8 @@
   "scripts": {
     "start:origin": "vite serve --open ./index.origin.html",
     "start:refactoring": "vite serve --open ./index.refactoring.html",
-    "dev": "pnpm start:refactoring",
+    "start:mock": "vite serve --open ./index.refactoring.mock.html",
+    "dev": "pnpm start:mock",
     "test": "vitest",
     "test:origin": "vitest src/origin",
     "test:basic": "vitest src/basic",

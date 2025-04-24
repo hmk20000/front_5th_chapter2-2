@@ -2,7 +2,6 @@ import NewProduct from './NewProduct';
 import { Product } from '../../../types';
 import { Card, H2 } from '../shared';
 import ProductAccordion from './ProductAccordion';
-import { useEditProduct } from '../../hooks/useEditProduct';
 interface ManageProductProps {
   products: Product[];
   onProductAdd: (product: Product) => void;
@@ -13,9 +12,6 @@ const ManageProduct = ({
   onProductAdd,
   onProductUpdate,
 }: ManageProductProps) => {
-  const { editingProduct, handleEditProduct, handleEditComplete } =
-    useEditProduct(onProductUpdate);
-
   return (
     <div>
       <H2>상품 관리</H2>
@@ -25,9 +21,7 @@ const ManageProduct = ({
           <Card key={product.id} data-testid={`product-${index + 1}`}>
             <ProductAccordion
               product={product}
-              editingProduct={editingProduct}
-              handleEditProduct={handleEditProduct}
-              handleEditComplete={handleEditComplete}
+              onProductUpdate={onProductUpdate}
             />
           </Card>
         ))}

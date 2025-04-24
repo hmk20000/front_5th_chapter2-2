@@ -1,59 +1,26 @@
 import { Discount, Product } from '../../../types';
+import { useEditProduct } from '../../hooks/useEditProduct';
 import { H4 } from '../shared';
 import Accordion from '../shared/Accordion';
 import AddDiscountForm from './AddDiscountForm';
 interface ProductAccordionProps {
   product: Product;
-  editingProduct: Product | null;
-  handleEditProduct: (product: Product) => void;
-  handleEditComplete: () => void;
+  onProductUpdate: (updatedProduct: Product) => void;
 }
 const ProductAccordion = ({
   product,
-  editingProduct,
-  handleEditProduct,
-  handleEditComplete,
+  onProductUpdate,
 }: ProductAccordionProps) => {
-  const handleProductNameUpdate = (productId: string, newName: string) => {
-    if (editingProduct && editingProduct.id === productId) {
-      const updatedProduct = { ...editingProduct, name: newName };
-      handleEditProduct(updatedProduct);
-    }
-  };
-
-  const handlePriceUpdate = (productId: string, newPrice: number) => {
-    if (editingProduct && editingProduct.id === productId) {
-      const updatedProduct = { ...editingProduct, price: newPrice };
-      handleEditProduct(updatedProduct);
-    }
-  };
-
-  const handleStockUpdate = (productId: string, newStock: number) => {
-    if (editingProduct && editingProduct.id === productId) {
-      const updatedProduct = { ...editingProduct, stock: newStock };
-      handleEditProduct(updatedProduct);
-    }
-  };
-
-  const handleRemoveDiscount = (productId: string, index: number) => {
-    if (editingProduct && editingProduct.id === productId) {
-      const updatedProduct = {
-        ...editingProduct,
-        discounts: editingProduct.discounts.filter((_, i) => i !== index),
-      };
-      handleEditProduct(updatedProduct);
-    }
-  };
-
-  const handleAddDiscount = (productId: string, discount: Discount) => {
-    if (editingProduct && editingProduct.id === productId) {
-      const updatedProduct = {
-        ...editingProduct,
-        discounts: [...editingProduct.discounts, discount],
-      };
-      handleEditProduct(updatedProduct);
-    }
-  };
+  const {
+    editingProduct,
+    handleEditProduct,
+    handleEditComplete,
+    handleProductNameUpdate,
+    handlePriceUpdate,
+    handleStockUpdate,
+    handleRemoveDiscount,
+    handleAddDiscount,
+  } = useEditProduct(onProductUpdate);
 
   return (
     <Accordion title={Title(product)}>

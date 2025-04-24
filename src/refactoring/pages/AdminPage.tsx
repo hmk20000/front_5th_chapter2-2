@@ -17,10 +17,6 @@ export const AdminPage = ({
   onProductAdd,
   onCouponAdd,
 }: Props) => {
-  const handleAddCoupon = (newCoupon: Coupon) => {
-    onCouponAdd(newCoupon);
-  };
-
   return (
     <div className="container mx-auto p-4">
       <H1>관리자 페이지</H1>
@@ -30,7 +26,7 @@ export const AdminPage = ({
           onProductAdd={onProductAdd}
           onProductUpdate={onProductUpdate}
         />
-        <ManageCoupon coupons={coupons} onAddCoupon={handleAddCoupon} />
+        <ManageCoupon coupons={coupons} onAddCoupon={onCouponAdd} />
       </div>
     </div>
   );

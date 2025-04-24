@@ -1,8 +1,8 @@
-import { useState } from 'react';
 import NewProduct from './NewProduct';
 import { Product } from '../../../types';
 import { Card, H2 } from '../shared';
 import ProductAccordion from './ProductAccordion';
+import { useEditProduct } from '../../hooks/useEditProduct';
 interface ManageProductProps {
   products: Product[];
   onProductAdd: (product: Product) => void;
@@ -13,18 +13,8 @@ const ManageProduct = ({
   onProductAdd,
   onProductUpdate,
 }: ManageProductProps) => {
-  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
-
-  const handleEditProduct = (product: Product) => {
-    setEditingProduct({ ...product });
-  };
-
-  const handleEditComplete = () => {
-    if (editingProduct) {
-      onProductUpdate(editingProduct);
-      setEditingProduct(null);
-    }
-  };
+  const { editingProduct, handleEditProduct, handleEditComplete } =
+    useEditProduct(onProductUpdate);
 
   return (
     <div>

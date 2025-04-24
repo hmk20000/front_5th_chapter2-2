@@ -1,9 +1,17 @@
 import { useState } from 'react';
-import { describe, expect, test } from 'vitest';
-import { act, fireEvent, render, screen, within } from '@testing-library/react';
+import { describe, expect, test, vi } from 'vitest';
+import {
+  act,
+  fireEvent,
+  render,
+  renderHook,
+  screen,
+  within,
+} from '@testing-library/react';
 import { CartPage } from '../../refactoring/pages/CartPage';
 import { AdminPage } from '../../refactoring/pages/AdminPage';
 import { Coupon, Product } from '../../types';
+import { useEditProduct } from '../../refactoring/hooks/useEditProduct';
 
 const mockProducts: Product[] = [
   {
@@ -270,6 +278,87 @@ describe('advanced > ', () => {
 
     test('새로운 hook 함수르 만든 후에 테스트 코드를 작성해서 실행해보세요', () => {
       expect(true).toBe(true);
+    });
+
+    test('useEditProduct 기본 테스트', () => {
+      const onProductUpdate = vi.fn();
+
+      const { result } = renderHook(() => useEditProduct(onProductUpdate));
+
+      // 초기값은 null
+      expect(result.current.editingProduct).toBe(null);
+      // 상품 수정 시작
+      act(() => {
+        result.current.handleEditProduct(mockProducts[0]);
+      });
+      // 수정 시작된 상품 확인
+      expect(result.current.editingProduct).toEqual(mockProducts[0]);
+      if (result.current.editingProduct) {
+        // 수정 시작된 상품 정보 변경
+        result.current.editingProduct.name = '수정된 상품1';
+        // 수정 완료 요청
+        result.current.handleEditComplete();
+        // 수정 완료 처리 확인
+        expect(onProductUpdate).toHaveBeenCalledWith(
+          result.current.editingProduct,
+        );
+      }
+    });
+
+    test('useEditProduct 연속 수정 테스트', () => {
+      const onProductUpdate = vi.fn();
+      const { result } = renderHook(() => useEditProduct(onProductUpdate));
+
+      // 첫 번째 상품 수정 시작
+      act(() => {
+        result.current.handleEditProduct(mockProducts[0]);
+      });
+
+      // 첫 번째 상품 수정 완료
+      if (result.current.editingProduct) {
+        result.current.editingProduct.name = '수정된 상품1';
+        result.current.handleEditComplete();
+      }
+
+      // 두 번째 상품 수정 시작
+      act(() => {
+        result.current.handleEditProduct(mockProducts[1]);
+      });
+
+      // 두 번째 상품 수정 완료
+      if (result.current.editingProduct) {
+        result.current.editingProduct.name = '수정된 상품2';
+        result.current.handleEditComplete();
+      }
+
+      // 두 번의 수정이 모두 올바르게 처리되었는지 확인
+      expect(onProductUpdate).toHaveBeenCalledTimes(2);
+      expect(onProductUpdate).toHaveBeenCalledWith(
+        expect.objectContaining({ name: '수정된 상품1' }),
+      );
+      expect(onProductUpdate).toHaveBeenCalledWith(
+        expect.objectContaining({ name: '수정된 상품2' }),
+      );
+    });
+
+    test('useEditProduct 수정 중 다른 상품 수정 시도 테스트', () => {
+      const onProductUpdate = vi.fn();
+      const { result } = renderHook(() => useEditProduct(onProductUpdate));
+
+      // 첫 번째 상품 수정 시작
+      act(() => {
+        result.current.handleEditProduct(mockProducts[0]);
+      });
+
+      // 수정 중에 다른 상품 수정 시도
+      act(() => {
+        result.current.handleEditProduct(mockProducts[1]);
+      });
+
+      // 현재 수정 중인 상품이 두 번째 상품으로 변경되었는지 확인
+      expect(result.current.editingProduct).toEqual(mockProducts[1]);
+      // 첫 번째 상품의 수정이 완료되지 않았으므로 onProductUpdate가 호출되지 않았는지 확인
+      expect(onProductUpdate).not.toHaveBeenCalled();
     });
   });
 });

@@ -17,6 +17,10 @@ export default mergeConfig(
     },
   }),
   defineTestConfig({
+    base: 'front_5th_chapter2-2',
+    build: {
+      outDir: 'docs',
+    },
     test: {
       globals: true,
       environment: 'jsdom',
